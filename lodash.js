@@ -408,7 +408,20 @@ const purchases = [
 const purchasesByMonth = _.groupBy(purchases, 'month'); // Use groupBy to group the purchases by the month that they were made.
 
 // Bonus Points
-const totalByMonth = 0; // Use the grouped purchasesByMonth and reduce to create a totalByMonth object.
+const totalByMonth = _.mapValues(purchasesByMonth, function(month){
+  return (_.reduce(month, function(a, b) {
+    return a+b.price;
+  }, 0))
+});
+
+const totalMonth = _.reduce(purchasesByMonth, (res, month, key) => {
+  res[key] = month.reduce((a,b) => {
+    return a+b.price;
+  }, 0)
+  return res;
+}, {})
+
+// Use the grouped purchasesByMonth and reduce to create a totalByMonth object.
 
 // memoize
 //  Memoize lets us take a function that takes a lot of time to run, and cache (or memoize)
